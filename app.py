@@ -1,11 +1,11 @@
-<<<<<<< HEAD
 from flask import Flask, request, send_file
+from flask_cors import CORS
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 import uuid
-import os
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/health")
 def health():
@@ -13,38 +13,16 @@ def health():
 
 @app.route("/generate-pdf", methods=["POST"])
 def generate_pdf():
-    data = request.json
+    data = request.json or {}
     teacher = data.get("teacher_name", "Unknown Teacher")
 
-    filename = f"/tmp/{uuid.uuid4()}.pdf"
-    c = canvas.Canvas(filename, pagesize=A4)
+    file_path = f"/tmp/{uuid.uuid4()}.pdf"
+    c = canvas.Canvas(file_path, pagesize=A4)
 
-    c.setFont("Helvetica", 12)
     c.drawString(100, 800, "LESSON OBSERVATION FORM")
     c.drawString(100, 760, f"Teacher Name: {teacher}")
 
     c.showPage()
     c.save()
 
-    return send_file(filename, as_attachment=True)
-
-if __name__ == "__main__":
-    app.run()
-=======
-from flask import Flask, request, send_file
-import uuid
-import os
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return {"message": "Backend is live!"}
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # <- THIS is important
-    app.run(host="0.0.0.0", port=port)
-
-
-
->>>>>>> 5949d18ea421a98b43828efee2df83d72dc4f7cc
+    return send_file(file_path, as_attachment=True)
