@@ -7,6 +7,10 @@ import uuid
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/")
+def home():
+    return {"message": "Backend is live!"}
+
 @app.route("/health")
 def health():
     return {"status": "ok"}
