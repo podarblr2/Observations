@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, request, send_file
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
@@ -29,3 +30,21 @@ def generate_pdf():
 
 if __name__ == "__main__":
     app.run()
+=======
+from flask import Flask, request, send_file
+import uuid
+import os
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return {"message": "Backend is live!"}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # <- THIS is important
+    app.run(host="0.0.0.0", port=port)
+
+
+
+>>>>>>> 5949d18ea421a98b43828efee2df83d72dc4f7cc
